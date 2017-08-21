@@ -14,6 +14,7 @@
 #include "RunEvery.h"
 //Coms
 #include "coms/PidServer.h"
+#include "coms/PidConfigServer.h"
 
 #define SERVO_1 PC_6
 #define SERVO_2 PB_15
