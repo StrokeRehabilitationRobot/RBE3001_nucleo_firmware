@@ -6,7 +6,7 @@
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
 HIDSimplePacket coms;
-float  calibrations[3] = {0,0,0};
+float  calibrations[3] = {485,-1276,-84};
 
 void runPid(){
   // update all positions fast and together
