@@ -1,7 +1,7 @@
 #include "main.h"
 
 #define  numberOfPid  3
-#define DUMMYLINKS
+//#define DUMMYLINKS
 // reportLength max size is 64 for HID
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
