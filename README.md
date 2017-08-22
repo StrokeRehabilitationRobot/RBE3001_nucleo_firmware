@@ -2,7 +2,6 @@
 
 This is the firmware for the nucleo-f746zg
 
-
 # Driver and udev rule
 The nucleo needs a udev rule installed in
 
@@ -32,11 +31,6 @@ sudo pip install mbed-cli
 
 cd mkdir git && cd ~/git/
 
-pip install mbed-cli
-
-cd ~/git/
-
-
 git clone http://repo.or.cz/r/openocd.git
 
 cd openocd
@@ -49,7 +43,6 @@ make -j8
 
 sudo make install
 ```
-
 If everything worked your terminal should look like: 
 
 ![](/terminal.png)
@@ -95,7 +88,6 @@ sudo mbed-cli compile -j0 -t GCC_ARM -m nucleo_f746zg --source .  --source ./mbe
 Set up a new project using "Importing to Eclipse and Building" section from: 
 
 `https://developer.mbed.org/users/c1728p9/notebook/debugging-mbed-50-projects-with-eclipse-and-pyocd/`
-=======
 
 Set the build command to the mbed-compile string above
 
