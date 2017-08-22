@@ -4,3 +4,5 @@
 .gcc-flags.json
 /src/*.gch
 /firmware.bin
+/CSGdatabase.json
+

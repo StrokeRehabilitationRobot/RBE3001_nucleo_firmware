@@ -15,16 +15,17 @@
 
 //Coms
 #include "coms/PidServer.h"
-/*
+#include "coms/PidConfigServer.h"
+
 #define SERVO_1 PC_6
 #define SERVO_2 PB_15
 #define SERVO_3 PB_13
-*/
 
+/*
 #define SERVO_1 PB_13
 #define SERVO_2 PB_15
 #define SERVO_3 PC_6
-
+*/
 #define MOSI PB_5
 #define CLK PB_3
 #define MISO PB_4

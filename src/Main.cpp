@@ -6,8 +6,10 @@
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
 HIDSimplePacket coms;
-float  calibrations[3] = {0,0,0};
-//float  calibrations[3] = {114,784,-10};
+
+//float  calibrations[3] = {0,0,0};
+float  calibrations[3] = {455,-1208,-144};
+
 
 
 void runPid(){
@@ -55,7 +57,7 @@ int main() {
      #endif
 
      pid[i]->SetPIDEnabled( true);// Enable PID to start control
-     pid[i]->SetPIDTimed(0, 1000);
+     pid[i]->SetPIDTimed(pid[i]->GetPIDPosition(),0);
    }
 
    /*
@@ -71,6 +73,7 @@ int main() {
    pid[0]->startHomingLink( CALIBRARTION_home_velocity, 123);
    */
    coms.attach(new PidServer (pid, numberOfPid ));
+   coms.attach(new PidConfigServer (pid, numberOfPid ));
    printf("\n\n Starting Core \n\n");
    RunEveryObject* print = new RunEveryObject(0,500);
     while(1) {
