@@ -1,11 +1,14 @@
 #include "main.h"
-
+#include <mbed.h>
 #define  numberOfPid  3
 //#define DUMMYLINKS
 // reportLength max size is 64 for HID
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
 HIDSimplePacket coms;
+AnalogIn LC_1(PB_1);
+AnalogIn LC_2(PC_2);
+AnalogIn LC_3(PF_4);
 
 //float  calibrations[3] = {0,0,0};
 float  calibrations[3] = {455,-1208,-144};
@@ -79,10 +82,13 @@ int main() {
     while(1) {
         coms.server();
         if(print->RunEvery(pid[0]->getMs())>0){
-          printf("\r\nEncoder Value = %f , %f , %f",
+          printf("\r\nEncoder Value = %f , %f , %f, %f, %f, %f",
           pid[0]->GetPIDPosition(),
           pid[1]->GetPIDPosition(),
-          pid[2]->GetPIDPosition());
+          pid[2]->GetPIDPosition(),
+		  LC_1.read(),
+		  LC_2.read(),
+		  LC_3.read());
         }
 
 
