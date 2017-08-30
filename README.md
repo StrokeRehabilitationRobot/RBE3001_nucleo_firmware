@@ -32,7 +32,11 @@ sudo make install
 
 ```
 Log out and log back in to make the user permissions stick.
+# SSH Keys
+To use the git@ url and to push without having to enter your username and password all the time, you need to set up an SSH key with github. 
+follow these instructions https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 
+then these  https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
 # Firmware Source Code
 
 Download and compile the source code with mbed-cli
@@ -41,6 +45,17 @@ Download and compile the source code with mbed-cli
 git config --global user.name "John Doe"
 git config --global user.email johndoe@wpi.edu
 ```
+## Check Git Configuration
+List all configurations:
+```
+ git config --list
+ 
+ ```
+Check just for the user tags:
+```
+ git config --list|grep user
+ 
+ ```
 ## Clone Firmware
 First create a new private repository and hold on to that git url.
 ```
@@ -50,12 +65,13 @@ cd RBE3001_nucleo_firmware
 ## Set up your private repo
 ```
 #Set your fresh clean Private repo here
-git remote set-url origin git@github.com:MY_3001_PROJECT_GROUP/MY_PRIVATE_REPO.git
+git remote set-url origin MY_Private_Repo_URL_here
 git checkout master
 # Add the example RBE firmware as an upstream pull
 git remote add RBE-UPSTREAM https://github.com/WPIRoboticsEngineering/RBE3001_nucleo_firmware.git
-#this pushes the master baranch to your private repo
+#this pushes the master branch to your private repo
 git push -u origin master
+git remote -v
 ```
 ## Initialize and Compile Firmware
 ```
@@ -67,6 +83,20 @@ mbed-cli compile -j0 -t GCC_ARM -m nucleo_f746zg --source .  --source ./mbed-os/
 If everything worked your terminal should look like: 
 
 ![](/terminal.png)
+
+## Check out after initial setup
+After the first setup you can checkout the project the easy way. Go to your private repo and copy the url. 
+
+```
+git clone MY_Private_Repo_URL_here
+cd M-Repo_Folder
+git remote add RBE-UPSTREAM https://github.com/WPIRoboticsEngineering/RBE3001_nucleo_firmware.git
+git submodule init
+git submodule update
+mbed deploy
+mbed-cli compile -j0 -t GCC_ARM -m nucleo_f746zg --source .  --source ./mbed-os/features/unsupported/USBDevice/USBDevice/  --source ./mbed-os/features/unsupported/USBDevice/USBHID/ -f
+```
+
 # Print statements
 
 Use Putty to open the serial port
@@ -148,7 +178,9 @@ Finish
 
 Then set the build command by right clicking on RBE3001_Nucleo_firmware
 
-Properties->C/C++ Buld->Builder Settings->Build Command:
+Select Properties->C/C++ Buld
+
+Builder Settings->Build Command:
 
 `mbed-cli compile -j0 -t GCC_ARM -m nucleo_f746zg --source .  --source ./mbed-os/features/unsupported/USBDevice/USBDevice/  --source ./mbed-os/features/unsupported/USBDevice/USBHID/`
 
@@ -160,7 +192,7 @@ Set the build command to push the firmware with '-f'
 Properties->C/C++ Buld->Behavior Build(Incremental Build)
 
 ![](/Screenshot_2017-08-21_12-43-41.png)
-
+# Fix the errors for standard types (Red underlines in HIDDevice.h and all others with stdint)
 right click on RBE3001_Nucleo_firmware 
 
 Properties->C/C++ Buld ->Settings->Toolchains->Toolchain path
@@ -169,9 +201,18 @@ and make sure it says:
 
 `/usr/arm-none-eabi/bin/`
 
+Click apply and Save from this window. This writes the toolchain into the configuration and causes a re-index. THis step is nessissary. 
+
 right click on RBE3001_Nucleo_firmware
 
 Index-> Rebuild
 
 Wait for the C/C++ indexer to complete and then you can begin working.
 
+# Reporting Issues with the template code
+
+To report an issue with the template code it must consist of these exact elements:
+
+A puplic fork of the template code from the current master with the error demonstrated with a unit test demonstration. Only the nessisary code to demonstrate the bug. 9 times out of 10, when doing this you will find the bug or a faster workaround to unexpected behavior. If the bug can be demonstrated in isolation then move on to the next step. DO Not just copy your whole project over, make a new set of code demonstrationg only the problem and nothing else. Each line must have a comment on the end explaining why it needs to be ther in order to demonstrate the bug. This will be visible in the github diff as each line having a comment after the end of the line. If you demonstration does not meet these criteria, the issue will wait until you commit updates making the repo meet them. 
+
+An Issue posted here: https://github.com/WPIRoboticsEngineering/RBE3001_nucleo_firmware/issues and a link to the repository with the demonstration code. Simply describing a problem without the isolated demonstration code will cause the issue to be closed. The issue will be reviewed and a patch or response with happen as soon as the staff figures out whats wrong. If you would like to suggest a solution, feel free to send a Pull Request with a clean branch of the solution to the siiue. Be sure to include the issue number, such as #1 , in all commits resolving this issue. 
