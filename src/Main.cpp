@@ -5,9 +5,9 @@
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
 HIDSimplePacket coms;
-AnalogIn LC_1(PB_1);
-AnalogIn LC_2(PC_2);
-AnalogIn LC_3(PF_4);
+AnalogIn LC_1(LOAD_1);
+AnalogIn LC_2(LOAD_2);
+AnalogIn LC_3(LOAD_3);
 
 //float  calibrations[3] = {0,0,0};
 float  calibrations[3] = {-176,0,0};
