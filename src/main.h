@@ -3,10 +3,9 @@
 
 #include "AS5050.h"
 #include "mbed.h"
-#include <drivers/AnalogIn.h>
+#include <AnalogIn.h>
 #include "drivers/Clock.h"
 #include "Servo.h"
-#include "mbed.h"
 #include "drivers/MyPid.h"
 #include "drivers/DummyPID.h"
 #include "drivers/HIDPacket.h"

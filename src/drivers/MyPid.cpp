@@ -32,8 +32,8 @@ void PIDimp::onPidConfigureLocal(){
   // the smallest increment of change for the output
   state.config.outputIncrement=0.0005f;
   // the upper and lower hystersis values for where the motor starts moving
-  state.config.upperHistoresis = state.config.stop+0.01;
-  state.config.lowerHistoresis = state.config.stop-0.01;
+  state.config.upperHistoresis = state.config.stop+0.001;
+  state.config.lowerHistoresis = state.config.stop-0.001;
   // a value in encoder units that representst the noise floor of the sensor when detecting stall homing
   state.homing.homingStallBound = 20.0f;
   printf("\nPID initialized");

@@ -10,7 +10,7 @@ AnalogIn LC_2(PC_2);
 AnalogIn LC_3(PF_4);
 
 //float  calibrations[3] = {0,0,0};
-float  calibrations[3] = {455,-1208,-144};
+float  calibrations[3] = {-176,0,0};
 
 void runPid(){
   // update all positions fast and together
