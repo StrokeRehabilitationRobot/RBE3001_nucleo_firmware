@@ -3,7 +3,12 @@
 
 #include "AS5050.h"
 #include "mbed.h"
+#if !defined(DEVICE_ANALOGOUT)
+#define DEVICE_ANALOGOUT
+#endif
 #include <AnalogIn.h>
+#include <AnalogOut.h>
+
 #include "../mbed-os/targets/TARGET_STM/TARGET_STM32F7/TARGET_STM32F746xG/TARGET_NUCLEO_F746ZG/PinNames.h"
 #include "../mbed-os/drivers/AnalogIn.h"
 #include "../mbed-os/drivers/AnalogOut.h"
@@ -12,7 +17,6 @@
 #include "drivers/MyPid.h"
 #include "drivers/DummyPID.h"
 #include "drivers/HIDPacket.h"
-#include "main.h"
 #include "USBHID.h"
 #include "RunEvery.h"
 //Coms
