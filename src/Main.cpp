@@ -8,7 +8,7 @@ HIDSimplePacket coms;
 AnalogIn LC_1(LOAD_1);
 AnalogIn LC_2(LOAD_2);
 AnalogIn LC_3(LOAD_3);
-AnalogOut StepResponse(PB_5);
+//AnalogOut StepResponse(PB_5);
 
 //float  calibrations[3] = {0,0,0};
 float  calibrations[3] = {-176,0,0};
