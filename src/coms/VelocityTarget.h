@@ -8,11 +8,11 @@
 
 class VelocityTarget: public PacketEventAbstract{
 private:
-  PIDBowler* * myPidObjects;
+	PIDimp* * myPidObjects;
    int myPumberOfPidChannels;
 public:
   // Packet ID needs to be set
-   VelocityTarget (PIDBowler* * pidObjects, int numberOfPidChannels )
+   VelocityTarget (PIDimp* * pidObjects, int numberOfPidChannels )
    : PacketEventAbstract( 42){
     myPidObjects=pidObjects;
     myPumberOfPidChannels=numberOfPidChannels;

@@ -8,11 +8,11 @@
 
 class PDVelocityConfigServer: public PacketEventAbstract{
 private:
-  PIDBowler* * myPidObjects;
+	PIDimp* * myPidObjects;
    int myPumberOfPidChannels;
 public:
   // Packet ID needs to be set
-   PDVelocityConfigServer (PIDBowler* * pidObjects, int numberOfPidChannels )
+   PDVelocityConfigServer (PIDimp* * pidObjects, int numberOfPidChannels )
    : PacketEventAbstract( 48){
     myPidObjects=pidObjects;
     myPumberOfPidChannels=numberOfPidChannels;

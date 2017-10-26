@@ -11,7 +11,7 @@ private:
    int myPumberOfPidChannels;
 public:
   // Packet ID needs to be set
-  PidServer (PIDBowler* * pidObjects, int numberOfPidChannels )
+  PidServer (PIDimp* * pidObjects, int numberOfPidChannels )
    : PacketEventAbstract( 37){
     myPidObjects=pidObjects;
     myPumberOfPidChannels=numberOfPidChannels;
