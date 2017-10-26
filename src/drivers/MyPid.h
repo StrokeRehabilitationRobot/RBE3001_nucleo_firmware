@@ -4,11 +4,14 @@
 #include "AS5050.h"
 #include "Servo.h"
 #include "RunEvery.h"
-#define kp 0.006
-#define ki 0.002
-#define kd 0.0015
-#define vkp 0.01
+
+#define kp 0.005
+#define ki 0
+#define kd 0
+#define vkp 1
+
 #define vkd 0
+#define SENSOR_SUM 4.0
 class PIDimp : public PIDBowler{
 public:
   // constructor taking in the hardware objects
@@ -26,6 +29,10 @@ public:
   AS5050 * encoder;
   Servo * servo;
   double gravityCompTerm=0;
+private:
+  float runningValues[(int)SENSOR_SUM];
+  float runningTotal;
+  int runningTotalIndex;
 
 };
 #endif

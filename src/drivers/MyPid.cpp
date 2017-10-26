@@ -4,10 +4,22 @@
 PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder){
   servo = myServo;
   encoder = myEncoder;
+  runningTotalIndex=0;
+  runningTotal=0;
+  for (int i=0;i<SENSOR_SUM;i++){
+	  runningValues[i]=0;
+  }
 }
 // Return the current position of the system
 float PIDimp::getPosition( ){
-  return (float)encoder->totalAngle();
+  runningTotal -=runningValues[runningTotalIndex];
+  runningValues[runningTotalIndex]=(float)encoder->totalAngle();
+  runningTotal +=runningValues[runningTotalIndex];
+  runningTotalIndex++;
+  if(runningTotalIndex>=SENSOR_SUM){
+	  runningTotalIndex=0;
+  }
+  return runningTotal/SENSOR_SUM;
 }
 //Send controller signel to the motors, bounded and scaled by the configurations
 void PIDimp::setOutputLocal( float currentOutputValue){
@@ -32,11 +44,17 @@ void PIDimp::onPidConfigureLocal(){
   // the smallest increment of change for the output
   state.config.outputIncrement=0.0005f;
   // the upper and lower hystersis values for where the motor starts moving
-  state.config.upperHistoresis = state.config.stop+0.001;
-  state.config.lowerHistoresis = state.config.stop-0.001;
+  state.config.upperHistoresis = state.config.stop+0.01;
+  state.config.lowerHistoresis = state.config.stop-0.01;
+  //We have hand set the values, the system is calibrated
+  state.calibration.calibrated = true
+  state.config.calibrationState= CALIBRARTION_DONE;
   // a value in encoder units that representst the noise floor of the sensor when detecting stall homing
   state.homing.homingStallBound = 20.0f;
-  printf("\nPID initialized");
+  //30 sets to 100ms velocity loop
+  setVelocityControllerDivisor(60);// Sets the number of PID cycles to run before running one velocity controller
+  printf("\r\nPID initialized");
+
 }
 
 void PIDimp::MathCalculationPosition( float currentTime){

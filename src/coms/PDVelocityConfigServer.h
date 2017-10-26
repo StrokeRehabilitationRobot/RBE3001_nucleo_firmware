@@ -1,18 +1,19 @@
-#ifndef  Pid_server
-#define Pid_server
+#ifndef  PDVelocityConfigServer_h
+#define PDVelocityConfigServer_h
 #include <PID_Bowler.h>
 #include <PacketEvent.h>
 #include "../drivers/MyPid.h"
 #include <cmath>        // std::abs
 
-class PidServer: public PacketEventAbstract{
+
+class PDVelocityConfigServer: public PacketEventAbstract{
 private:
-	PIDimp* * myPidObjects;
+  PIDBowler* * myPidObjects;
    int myPumberOfPidChannels;
 public:
   // Packet ID needs to be set
-  PidServer (PIDBowler* * pidObjects, int numberOfPidChannels )
-   : PacketEventAbstract( 37){
+   PDVelocityConfigServer (PIDBowler* * pidObjects, int numberOfPidChannels )
+   : PacketEventAbstract( 48){
     myPidObjects=pidObjects;
     myPumberOfPidChannels=numberOfPidChannels;
   }
