@@ -25,6 +25,7 @@ public:
   // These are parts of the concrete class
   AS5050 * encoder;
   Servo * servo;
+  double gravityCompTerm=0;
 
 };
 #endif

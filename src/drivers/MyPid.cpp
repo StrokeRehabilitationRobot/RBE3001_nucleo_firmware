@@ -42,6 +42,7 @@ void PIDimp::onPidConfigureLocal(){
 void PIDimp::MathCalculationPosition( float currentTime){
   //optional run user math functions to compute state.Output as a control signal
    RunAbstractPIDCalc( currentTime);
+   state.Output+=gravityCompTerm;
 }
 
 void PIDimp::MathCalculationVelocity( float currentTime){

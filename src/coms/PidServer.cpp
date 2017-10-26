@@ -12,6 +12,7 @@ void PidServer::event(float * buffer){
     float setpoint        = buffer[(i*3)+0];
     float velocityTarget  = buffer[(i*3)+1];
     float forceTarget     = buffer[(i*3)+2];
+    myPidObjects[i]->gravityCompTerm=forceTarget;
 
     //perform state update
     float timeOfMotion=0;
