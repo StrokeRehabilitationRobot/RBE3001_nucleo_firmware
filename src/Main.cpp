@@ -10,7 +10,7 @@ AnalogIn LC_2(LOAD_2);
 AnalogIn LC_3(LOAD_3);
 
 //float calibrations[3] = { 1878.750000, 2103.250000, 988.000000 }; // team 3
-float  calibrations[3] = {0,0,0};
+float  calibrations[3] = {1448.750000 , 232.250000 ,0};
 
 void runPid() {
 	// update all positions fast and together
