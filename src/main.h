@@ -26,7 +26,7 @@
 #include "coms/PDVelocityConfigServer.h"
 #include "coms/VelocityTarget.h"
 
-//#define RELEASE
+#define RELEASE
 // DEFINES
 #define MOSI PB_5 // HDMI 16
 #define CLK PB_3 // HDMI 13
