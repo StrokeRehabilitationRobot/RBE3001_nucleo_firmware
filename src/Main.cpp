@@ -1,12 +1,13 @@
 #include "main.h"
 
 #define  numberOfPid  3
-#define DUMMYLINKS
+//#define DUMMYLINKS
 // reportLength max size is 64 for HID
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
 HIDSimplePacket coms;
-float  calibrations[3] = {0,0,0};
+
+float  calibrations[3] = {1845,2022,1203}; //Team-08
 //float  calibrations[3] = {114,784,-10};
 
 
@@ -18,6 +19,7 @@ void runPid(){
   for (int i=0;i<numberOfPid;i++)
       pid[i]->updateControl();
 }
+
 int main() {
 	printf("\r\n\r\n Top of Main \r\n\r\n");
 
@@ -74,6 +76,8 @@ int main() {
    pid[0]->startHomingLink( CALIBRARTION_home_velocity, 123);
    */
    coms.attach(new PidServer (pid, numberOfPid ));
+   coms.attach(new SetPID (pid, numberOfPid ));
+
    printf("\r\n\r\n Starting Core \r\n\r\n");
    RunEveryObject* print = new RunEveryObject(0,500);
     while(1) {
