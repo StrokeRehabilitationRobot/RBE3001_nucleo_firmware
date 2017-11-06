@@ -66,12 +66,13 @@ int main() {
 	printf("\r\n\r\n Starting Core \r\n\r\n");
 	while (1) {
 		coms.server();
-		if (print->RunEvery(pid[0]->getMs()) > 0) {
+		int link =1;
+		if (print->RunEvery(pid[link]->getMs()) > 0) {
 			printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
 					pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
-			printf("\r\nLoad Value = %f , %f , %f", LC_1.read_u16(),
-					LC_2.read_u16(), LC_3.read_u16());
-			int link =1;
+			printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
+					pid[1]->loadCell->read(), pid[2]->loadCell->read());
+
 			if (pid[link]->state.vel.enabled) {
 				printf("\e[1;1H\e[2J\n\r\n\r\t Velocity set=   %f ticks/seCond\
 						\n\r\t vel.lastPosition=      %f ticks\
