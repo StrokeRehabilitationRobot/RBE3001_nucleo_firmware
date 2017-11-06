@@ -13,11 +13,15 @@ void SetPID::event(float * buffer)
 		}
 		// Set gripper to 10th float value
 
-		uint8_t * buff = (uint8_t *)buffer;
-		for(int i=4; i<64;i++)
-		{
-			buff[i]=7;
-		}
+	for(int i=0; i<myPumberOfPidChannels;i++){
+
+
+	    // write upstream packets
+	    buffer[(i*3)+0] = 1;
+	    buffer[(i*3)+1] = 1;
+	    buffer[(i*3)+2] = 1;
+
+	  }
 
 
 }

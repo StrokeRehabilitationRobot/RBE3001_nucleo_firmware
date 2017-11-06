@@ -1,14 +1,17 @@
 #include "main.h"
-
+#include "mbed.h" //added for 6
 #define  numberOfPid  3
 //#define DUMMYLINKS
 // reportLength max size is 64 for HID
+
+
 Ticker pidTimer;
 static PIDBowler*  pid[numberOfPid];
 HIDSimplePacket coms;
 
 float  calibrations[3] = {1845,2022,1203}; //Team-08
 //float  calibrations[3] = {114,784,-10};
+AnalogOut aout(DAC_PIN);
 
 
 void runPid(){
@@ -30,11 +33,11 @@ int main() {
 #else
    SPI * spiDev = new SPI(MOSI, MISO, CLK);
    pid[0] = new PIDimp( new Servo(SERVO_1, 5),
-                         new AS5050(spiDev, ENC_1));  // mosi, miso, sclk, cs
+                         new AS5050(spiDev, ENC_1, new AnalogIn(LOAD_1)));  // mosi, miso, sclk, cs
    pid[1] = new PIDimp( new Servo(SERVO_2, 5),
-                         new AS5050(spiDev, ENC_2));  // mosi, miso, sclk, cs
+                         new AS5050(spiDev, ENC_2,new AnalogIn(LOAD_2)));  // mosi, miso, sclk, cs
    pid[2] = new PIDimp( new Servo(SERVO_3, 5),
-                         new AS5050(spiDev, ENC_3));  // mosi, miso, sclk, cs
+                         new AS5050(spiDev, ENC_3,new AnalogIn(LOAD_3)));  // mosi, miso, sclk, cs
 #endif
 
    // Invert the direction of the motor vs the input

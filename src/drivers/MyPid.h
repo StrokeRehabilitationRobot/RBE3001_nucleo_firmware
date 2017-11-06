@@ -12,7 +12,7 @@
 class PIDimp : public PIDBowler{
 public:
   // constructor taking in the hardware objects
-  PIDimp(Servo * myServo, AS5050 * myEncoder);
+  PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn* load);
   // these are implementations of the abstract functions
   float getPosition();
   void setOutputLocal( float);
@@ -25,6 +25,7 @@ public:
   // These are parts of the concrete class
   AS5050 * encoder;
   Servo * servo;
+  AnalogIn* load;
 
 };
 #endif

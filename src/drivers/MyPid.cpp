@@ -1,7 +1,7 @@
 
 #include "MyPid.h"
 #include "Clock.h"
-PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder){
+PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn* load){
   servo = myServo;
   encoder = myEncoder;
 }
