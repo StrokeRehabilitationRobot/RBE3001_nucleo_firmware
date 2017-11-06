@@ -5,10 +5,6 @@
 Ticker pidTimer;
 static PIDimp* pid[numberOfPid];
 HIDSimplePacket coms;
-AnalogIn LC_1(LOAD_1);
-AnalogIn LC_2(LOAD_2);
-AnalogIn LC_3(LOAD_3);
-
 //float calibrations[3] = { 1878.750000, 2103.250000, 988.000000 }; // team 3
 float  calibrations[3] = {1448.750000 , 232.250000 ,0};
 
@@ -29,9 +25,9 @@ int main() {
 	pid[2] = (PIDimp*) new DummyPID();
 #else
 	SPI * spiDev = new SPI(MOSI, MISO, CLK);
-	pid[0] = new PIDimp(new Servo(SERVO_1, 5), new AS5050(spiDev, ENC_1)); // mosi, miso, sclk, cs
-	pid[1] = new PIDimp(new Servo(SERVO_2, 5), new AS5050(spiDev, ENC_2)); // mosi, miso, sclk, cs
-	pid[2] = new PIDimp(new Servo(SERVO_3, 5), new AS5050(spiDev, ENC_3)); // mosi, miso, sclk, cs
+	pid[0] = new PIDimp(new Servo(SERVO_1, 5), new AS5050(spiDev, ENC_1),new AnalogIn(LOAD_1)); // mosi, miso, sclk, cs
+	pid[1] = new PIDimp(new Servo(SERVO_2, 5), new AS5050(spiDev, ENC_2),new AnalogIn(LOAD_2)); // mosi, miso, sclk, cs
+	pid[2] = new PIDimp(new Servo(SERVO_3, 5), new AS5050(spiDev, ENC_3),new AnalogIn(LOAD_3)); // mosi, miso, sclk, cs
 #endif
 
    RunEveryObject* print = new RunEveryObject(0,500);

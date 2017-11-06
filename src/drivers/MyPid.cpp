@@ -1,9 +1,10 @@
 
 #include "MyPid.h"
 #include "Clock.h"
-PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder){
+PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn * myLoadCell ){
   servo = myServo;
   encoder = myEncoder;
+  loadCell = myLoadCell;
   runningTotalIndex=0;
   runningTotal=0;
   for (int i=0;i<SENSOR_SUM;i++){

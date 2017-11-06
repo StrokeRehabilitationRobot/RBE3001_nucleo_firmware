@@ -8,7 +8,7 @@ class DummyPID : public PIDimp{
 public:
   DummyPID(){}
   // constructor taking in the hardware objects
-  DummyPID(Servo * myServo, AS5050 * myEncoder){}
+  DummyPID(Servo * myServo, AS5050 * myEncoder, AnalogIn * myLoadCell ){}
   float getPosition();
   void setOutputLocal( float);
   float resetPosition( float);

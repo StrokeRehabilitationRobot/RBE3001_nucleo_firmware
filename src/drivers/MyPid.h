@@ -17,7 +17,7 @@ public:
   PIDimp(){}
 
   // constructor taking in the hardware objects
-  PIDimp(Servo * myServo, AS5050 * myEncoder);
+  PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn * myLoadCell );
   // these are implementations of the abstract functions
   float getPosition();
   void setOutputLocal( float);
@@ -30,6 +30,7 @@ public:
   // These are parts of the concrete class
   AS5050 * encoder;
   Servo * servo;
+  AnalogIn * loadCell;
   double gravityCompTerm=0;
 private:
   float runningValues[(int)SENSOR_SUM];
