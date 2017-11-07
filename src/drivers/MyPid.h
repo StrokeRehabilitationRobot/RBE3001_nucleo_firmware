@@ -4,12 +4,14 @@
 #include "AS5050.h"
 #include "Servo.h"
 #include "RunEvery.h"
+#include "AnalogIn.h"
 #define kp 0.005
 #define ki 0
 #define kd 0
 #define vkp 0.01
 #define vkd 0
-class PIDimp : public PIDBowler{
+class PIDimp : public PIDBowler
+{
 public:
   // constructor taking in the hardware objects
   PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn* load);
@@ -26,8 +28,9 @@ public:
   AS5050 * encoder;
   Servo * servo;
   //My functions
+  uint16_t  readTorque();
   AnalogIn* load;
-  uint16_t getTorque();
+
 
 };
 #endif
