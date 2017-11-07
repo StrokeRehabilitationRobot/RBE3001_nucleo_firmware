@@ -28,7 +28,7 @@ public:
   AS5050 * encoder;
   Servo * servo;
   //My functions
-  uint16_t  readTorque();
+  float getTorque();
   AnalogIn* load;
 
 

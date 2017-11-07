@@ -62,19 +62,7 @@ float PIDimp::getMs(){
 
 }
 
-uint16_t PIDimp::readTorque()
+float PIDimp::getTorque(void)
 {
-	int sum = 0;
-	uint16_t currentReading = (load->read_u16()) >> 4;
-	uint16_t previousReading = currentReading;
-	int i;
-	int numReadings = 0;
-	for (i = 0; i < 25; i++) {
-		currentReading = (load->read_u16()) >> 4;
-		sum += currentReading;
-		previousReading = currentReading;
-		numReadings++;
-	}
-	uint16_t torqueVal = sum / numReadings;
-	return torqueVal;
+  return load->read();
 }
