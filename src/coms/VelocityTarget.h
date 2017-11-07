@@ -1,26 +1,19 @@
-#ifndef  Pid_server
-#define Pid_server
+#ifndef  VelocityTarget_h
+#define VelocityTarget_h
 #include <PID_Bowler.h>
 #include <PacketEvent.h>
 #include "../drivers/MyPid.h"
 #include <cmath>        // std::abs
 
-class PidServer: public PacketEventAbstract{
+
+class VelocityTarget: public PacketEventAbstract{
 private:
-<<<<<<< HEAD
-  PIDimp* * myPidObjects;
-=======
 	PIDimp* * myPidObjects;
->>>>>>> branch 'master' of git@github.com:madhephaestus/Kevins_RBE3001_nucleo_firmware.git
    int myPumberOfPidChannels;
 public:
   // Packet ID needs to be set
-  PidServer (PIDimp* * pidObjects, int numberOfPidChannels )
-<<<<<<< HEAD
-   : PacketEventAbstract( PidServerID){
-=======
-   : PacketEventAbstract( 37){
->>>>>>> branch 'master' of git@github.com:madhephaestus/Kevins_RBE3001_nucleo_firmware.git
+   VelocityTarget (PIDimp* * pidObjects, int numberOfPidChannels )
+   : PacketEventAbstract( 42){
     myPidObjects=pidObjects;
     myPumberOfPidChannels=numberOfPidChannels;
   }

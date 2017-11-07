@@ -4,3 +4,7 @@
 .gcc-flags.json
 /src/*.gch
 /firmware.bin
+/CSGdatabase.json
+
+/mbed-os/
+/mbed-os2/

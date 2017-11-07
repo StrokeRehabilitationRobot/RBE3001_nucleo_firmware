@@ -12,6 +12,7 @@ void PidServer::event(float * buffer){
     float setpoint        = buffer[(i*3)+0];
     float velocityTarget  = buffer[(i*3)+1];
     float forceTarget     = buffer[(i*3)+2];
+    myPidObjects[i]->gravityCompTerm=forceTarget;
 
     //perform state update
     float timeOfMotion=0;
@@ -34,6 +35,7 @@ void PidServer::event(float * buffer){
 
       __disable_irq();    // Disable Interrupts
       myPidObjects[i]->SetPIDEnabled( true);
+
       myPidObjects[i]->SetPIDTimed(setpoint, timeOfMotion);// go to setpoint in timeBetweenPrints ms, linear interpolation
       __enable_irq();
       // printf("\n Index %i Interpolation Set = %f ,  Start = %f , setTime = %f , startTime = %f",
@@ -61,9 +63,10 @@ void PidServer::event(float * buffer){
   for(int i=0; i<myPumberOfPidChannels;i++){
 
     float position = myPidObjects[i]->GetPIDPosition();
+
     float velocity = 0;
     float  torque =  0;
-    // write upstream packets
+
     buffer[(i*3)+0] = position;
     buffer[(i*3)+1] = velocity;
     buffer[(i*3)+2] = torque;

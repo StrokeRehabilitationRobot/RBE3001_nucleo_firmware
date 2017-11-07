@@ -1,26 +1,19 @@
-#ifndef  Pid_server
-#define Pid_server
+#ifndef  PDVelocityConfigServer_h
+#define PDVelocityConfigServer_h
 #include <PID_Bowler.h>
 #include <PacketEvent.h>
 #include "../drivers/MyPid.h"
 #include <cmath>        // std::abs
 
-class PidServer: public PacketEventAbstract{
+
+class PDVelocityConfigServer: public PacketEventAbstract{
 private:
-<<<<<<< HEAD
-  PIDimp* * myPidObjects;
-=======
 	PIDimp* * myPidObjects;
->>>>>>> branch 'master' of git@github.com:madhephaestus/Kevins_RBE3001_nucleo_firmware.git
    int myPumberOfPidChannels;
 public:
   // Packet ID needs to be set
-  PidServer (PIDimp* * pidObjects, int numberOfPidChannels )
-<<<<<<< HEAD
-   : PacketEventAbstract( PidServerID){
-=======
-   : PacketEventAbstract( 37){
->>>>>>> branch 'master' of git@github.com:madhephaestus/Kevins_RBE3001_nucleo_firmware.git
+   PDVelocityConfigServer (PIDimp* * pidObjects, int numberOfPidChannels )
+   : PacketEventAbstract( 48){
     myPidObjects=pidObjects;
     myPumberOfPidChannels=numberOfPidChannels;
   }
