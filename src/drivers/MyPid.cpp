@@ -1,9 +1,10 @@
 
 #include "MyPid.h"
 #include "Clock.h"
-PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn* load){
+PIDimp::PIDimp(Servo * myServo, AS5050 * myEncoder, AnalogIn* ld){
   servo = myServo;
   encoder = myEncoder;
+  load = ld;
 }
 // Return the current position of the system
 float PIDimp::getPosition( ){
@@ -59,4 +60,18 @@ PidLimitEvent* PIDimp::checkPIDLimitEvents(){
 float PIDimp::getMs(){
   return ((float)clock_us())/1000.0;
 
+}
+
+uint16_t PIDimp::getTorque()
+{
+
+	float sum = 0;
+	int window = 25;
+	for(unsigned int i = 0; i < window; i++)
+	{
+		sum +=(load->read_u16()) >> 4;
+	}
+
+
+	return sum/window;
 }

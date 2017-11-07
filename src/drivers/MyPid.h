@@ -25,7 +25,9 @@ public:
   // These are parts of the concrete class
   AS5050 * encoder;
   Servo * servo;
+  //My functions
   AnalogIn* load;
+  uint16_t getTorque();
 
 };
 #endif
