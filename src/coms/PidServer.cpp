@@ -10,6 +10,7 @@ void PidServer::event(float * buffer){
 
     // read values from the packet buffer
     float setpoint        = buffer[(i*3)+0];
+    //printf("Link: %i  angle %f \n\r", i,setpoint );
     float velocityTarget  = buffer[(i*3)+1];
     float forceTarget     = buffer[(i*3)+2];
     myPidObjects[i]->gravityCompTerm=forceTarget;

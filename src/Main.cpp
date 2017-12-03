@@ -1,3 +1,4 @@
+
 #include "main.h"
 #define  numberOfPid  3
 //#define DUMMYLINKS
@@ -6,7 +7,7 @@ Ticker pidTimer;
 static PIDimp* pid[numberOfPid];
 HIDSimplePacket coms;
 //float calibrations[3] = { 1878.750000, 2103.250000, 988.000000 }; // team 3
-float  calibrations[3] = {1448.750000 , 232.250000 ,0};
+float  calibrations[3] = {0 	,2131,700.5};//{1853.0, 2023.5 ,1155.0};
 
 void runPid() {
 	// update all positions fast and together
@@ -67,40 +68,50 @@ int main() {
 	while (1) {
 		coms.server();
 		int link =1;
-		if (print->RunEvery(pid[link]->getMs()) > 0) {
-			printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
-					pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
-			printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
-					pid[1]->loadCell->read(), pid[2]->loadCell->read());
+		//printf("\n%s", "hello");
 
-			if (pid[link]->state.vel.enabled) {
-				printf("\e[1;1H\e[2J\n\r\n\r\t Velocity set=   %f ticks/seCond\
-						\n\r\t vel.lastPosition=      %f ticks\
-						\n\r\t GetPIDPosition()=      %f ticks\
-						\n\r\t getVelocity()=         %f ticks/seCond \ 
-						\n\r\t vel.currentOutputVel=    %f \
-						\n\r\t state.Output=    %f \
-						\n\r\t state.OutputSet=    %f \
-						\n\r\t state.vel.timeDiff=    %f \
-						\n\r\t state.vel.velocityDiff=    %f\
-						\n\r\t state.vel.posDiff=    %f\
-						\n\r\t state.vel.proportional=    %f\
-						\n\r\t state.config.V.P=    %f\
-						\n\r\t state.config.V.D=    %f",
-						pid[link]->state.vel.unitsPerSeCond,
-						pid[link]->state.vel.lastPosition,
-						pid[link]->GetPIDPosition(),
-						pid[link]->getVelocity(),
-						pid[link]->state.vel.currentOutputVel,
-						pid[link]->state.Output,
-						pid[link]->state.OutputSet,
-						pid[link]->state.vel.timeDiff,
-						pid[link]->state.vel.velocityDiff,
-						pid[link]->state.vel.posDiff,
-						pid[link]->state.vel.proportional,
-						pid[link]->state.config.V.P,
-						pid[link]->state.config.V.D);
-			}
+		printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
+						pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
+
+		printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
+							pid[1]->loadCell->read(), pid[2]->loadCell->read());
+
+		if (1)
+		{
+//			printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
+//					pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
+//
+//			printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
+//					pid[1]->loadCell->read(), pid[2]->loadCell->read());
+//
+//			if (pid[link]->state.vel.enabled) {
+//				printf("\e[1;1H\e[2J\n\r\n\r\t Velocity set=   %f ticks/seCond\
+//						\n\r\t vel.lastPosition=      %f ticks\
+//						\n\r\t GetPIDPosition()=      %f ticks\
+//						\n\r\t getVelocity()=         %f ticks/seCond \
+//						\n\r\t vel.currentOutputVel=    %f \
+//						\n\r\t state.Output=    %f \
+//						\n\r\t state.OutputSet=    %f \
+//						\n\r\t state.vel.timeDiff=    %f \
+//						\n\r\t state.vel.velocityDiff=    %f\
+//						\n\r\t state.vel.posDiff=    %f\
+//						\n\r\t state.vel.proportional=    %f\
+//						\n\r\t state.config.V.P=    %f\
+//						\n\r\t state.config.V.D=    %f",
+//						pid[link]->state.vel.unitsPerSeCond,
+//						pid[link]->state.vel.lastPosition,
+//						pid[link]->GetPIDPosition(),
+//						pid[link]->getVelocity(),
+//						pid[link]->state.vel.currentOutputVel,
+//						pid[link]->state.Output,
+//						pid[link]->state.OutputSet,
+//						pid[link]->state.vel.timeDiff,
+//						pid[link]->state.vel.velocityDiff,
+//						pid[link]->state.vel.posDiff,
+//						pid[link]->state.vel.proportional,
+//						pid[link]->state.config.V.P,
+//						pid[link]->state.config.V.D);
+//			}
 		}
 
 	}
