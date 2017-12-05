@@ -7,8 +7,8 @@ Ticker pidTimer;
 static PIDimp* pid[numberOfPid];
 HIDSimplePacket coms;
 //float calibrations[3] = { 1878.750000, 2103.250000, 988.000000 }; // team 3
-float  calibrations[3] = {0 	,2131,700.5};//{1853.0, 2023.5 ,1155.0};
-
+float  calibrations[3] = {626.25,2192.25,1574};//{1853.0, 2023.5 ,1155.0}; //rehab arm
+//float  calibrations[3] = {1844,2026,1155}; //team 8
 void runPid() {
 	// update all positions fast and together
 	for (int i = 0; i < numberOfPid; i++)
@@ -70,11 +70,11 @@ int main() {
 		int link =1;
 		//printf("\n%s", "hello");
 
-		printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
-						pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
-
-		printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
-							pid[1]->loadCell->read(), pid[2]->loadCell->read());
+//		printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
+//						pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
+//
+//		printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
+//							pid[1]->loadCell->read(), pid[2]->loadCell->read());
 
 		if (1)
 		{

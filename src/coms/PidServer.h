@@ -4,12 +4,17 @@
 #include <PacketEvent.h>
 #include "../drivers/MyPid.h"
 #include <cmath>        // std::abs
+#include "AS5050.h"
+#include "mbed.h"
+#include "Servo.h"
 
 class PidServer: public PacketEventAbstract{
 private:
 	PIDimp* * myPidObjects;
    int myPumberOfPidChannels;
-public:
+   Servo vibrator = Servo(PB_8, 5);
+   public:
+
   // Packet ID needs to be set
   PidServer (PIDimp* * pidObjects, int numberOfPidChannels )
    : PacketEventAbstract( 37){
@@ -20,6 +25,7 @@ public:
   // Buffer contains data from the packet coming in at the start of the function
   // User data is written into the buffer to send it back
   void event(float * buffer);
+
 };
 
 

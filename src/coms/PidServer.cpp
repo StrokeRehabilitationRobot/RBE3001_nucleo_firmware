@@ -56,16 +56,42 @@ void PidServer::event(float * buffer){
   //    }
    //}
   }
+
+  if(int(buffer[9]))
+  {
+	  vibrator = 5;
+  }
+  else
+  {
+	  vibrator = 0;
+  }
+
+
+
+
   uint8_t * buff = (uint8_t *)buffer;
   for(int i=4; i<64;i++){
     buff[i]=0;
   }
+  int avgSize = 10;
+  float avgLoad;
+  float avgVel;
+  float avgPos;
   //printf("\nPid Server Event");
-  for(int i=0; i<myPumberOfPidChannels;i++){
+  for(int i=0; i<myPumberOfPidChannels;i++)
+  {
 
+	avgLoad = 0;
+	avgPos  = 0;
+	avgVel  = 0;
+    for(unsigned int read = 0; read < avgSize; read++)
+    {
+    	avgLoad += myPidObjects[i]->loadCell->read();
+    }
+    float torque = avgLoad/avgSize;
     float position = myPidObjects[i]->GetPIDPosition();
     float velocity =myPidObjects[i]->getVelocity();
-    float torque = myPidObjects[i]->loadCell->read();
+
     // write upstream packets
     buffer[(i*3)+0] = position;
     buffer[(i*3)+1] = velocity;
@@ -78,3 +104,5 @@ void PidServer::event(float * buffer){
   //
   // }
 }
+
+
