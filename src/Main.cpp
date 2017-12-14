@@ -7,7 +7,8 @@ Ticker pidTimer;
 static PIDimp* pid[numberOfPid];
 HIDSimplePacket coms;
 //float calibrations[3] = { 1878.750000, 2103.250000, 988.000000 }; // team 3
-float  calibrations[3] = {626.25,2192.25,1574};//{1853.0, 2023.5 ,1155.0}; //rehab arm
+float  calibrations[3] = {555,2109,1581};//{1853.0, 2023.5 ,1155.0}; //rehab arm
+//float  calibrations[3] = {0,0,0};
 //float  calibrations[3] = {1844,2026,1155}; //team 8
 void runPid() {
 	// update all positions fast and together

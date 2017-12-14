@@ -57,13 +57,13 @@ void PidServer::event(float * buffer){
    //}
   }
 
-  if(int(buffer[9]))
+  if( buffer[9] )
   {
-	  vibrator = 5;
+	  vibrator = 0.7;
   }
   else
   {
-	  vibrator = 0;
+	  vibrator = 0.5;
   }
 
 

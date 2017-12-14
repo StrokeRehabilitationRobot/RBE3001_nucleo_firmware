@@ -7,12 +7,14 @@
 #include "AS5050.h"
 #include "mbed.h"
 #include "Servo.h"
+#include "PinNames.h"
 
 class PidServer: public PacketEventAbstract{
 private:
 	PIDimp* * myPidObjects;
    int myPumberOfPidChannels;
-   Servo vibrator = Servo(PB_8, 5);
+   Servo vibrator = Servo(PB_9, 5);
+   //AnalogOut aout(PA_4);
    public:
 
   // Packet ID needs to be set
