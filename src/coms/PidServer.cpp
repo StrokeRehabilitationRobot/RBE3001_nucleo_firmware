@@ -1,3 +1,6 @@
+/**
+ * See header file for more detail
+ */
 #include "PidServer.h"
 
 void PidServer::event(float * buffer){
@@ -60,6 +63,20 @@ void PidServer::event(float * buffer){
     buff[i]=0;
   }
   //printf("\nPid Server Event");
+
+
+  /**
+   * Put additional commands here, like gripper commands......
+   */
+
+
+
+  /**
+   * This loop reads the sensors and stores them in buffer.
+   * It read every encoders and calculates the position and velocity.
+   * It then reads the load cell at each link.
+   * This data is then sent up to the computer.
+   */
   for(int i=0; i<myPumberOfPidChannels;i++){
 
     float position = myPidObjects[i]->GetPIDPosition();

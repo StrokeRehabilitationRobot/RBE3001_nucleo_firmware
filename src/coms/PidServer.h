@@ -1,3 +1,12 @@
+
+/**
+ * The Pid server extends PacketEventAbstract.
+ * This class is used to run pid on setpoints sent down from
+ * the upstream. The packet should match the structure provided.
+ * The command ID for this class is 37.
+ * That means when a packet is formed it needs to be sent with a ID 37
+ */
+
 #ifndef  Pid_server
 #define Pid_server
 #include <PID_Bowler.h>

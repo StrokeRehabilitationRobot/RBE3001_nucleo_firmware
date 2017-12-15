@@ -1,3 +1,9 @@
+/**
+ * This class extends PacketEventAbstract. This class is used to set the pid constants for
+ * controller. The ID command for the class 65. This class should be used to tune the controller to
+ * achieve stable control of the arm.
+ */
+
 #ifndef  Pid_Config_server
 #define Pid_Config_server
 #include <PID_Bowler.h>

@@ -20,7 +20,10 @@
 #include "drivers/HIDPacket.h"
 #include "USBHID.h"
 #include "RunEvery.h"
-//Coms
+/*
+ *Coms
+ *Place additional "coms" here
+*/
 #include "coms/PidServer.h"
 #include "coms/PidConfigServer.h"
 #include "coms/PDVelocityConfigServer.h"
