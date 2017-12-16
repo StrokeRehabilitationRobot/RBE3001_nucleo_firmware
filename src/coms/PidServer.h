@@ -1,35 +1,58 @@
-
 /**
- * The Pid server extends PacketEventAbstract.
- * This class is used to run pid on setpoints sent down from
- * the upstream. The packet should match the structure provided.
- * The command ID for this class is 37.
- * That means when a packet is formed it needs to be sent with a ID 37
+ * @file PidServer.h 
+ * @brief PidServer for the RBE3001 robotic arm
+ * 
+ * @section RBE3001 - Nucleo Firmware - PidServer
+ *
+ * Instructions
+ * ------------
+ * This class implements a communication server that can be
+ * used to send given setpoints (in joint space) to the robotic arm.
+ * Setpoints generated in MATLAB and sent over HDI will be made available
+ * to the `event()' function below. See the code in `PidServer.cpp' for
+ * for more details.
+ * 
+ * IMPORTANT - Multiple communication servers can run in parallel, as shown
+ *             in the main file of this firmware
+ *             (see 'Part 2b' in /src/Main.cpp). To ensure that communication
+ *             packets generated in MATLAB are routed to the appropriate 
+ *             server, we use unique identifiers. The identifier for this
+ *             PidServer is the number 37.
+ *             In general, the identifier can be any 4-byte unsigned
+ *             integer number.
  */
 
 #ifndef  Pid_server
 #define Pid_server
+
 #include <PID_Bowler.h>
 #include <PacketEvent.h>
 #include "../drivers/MyPid.h"
-#include <cmath>        // std::abs
+#include <cmath>              // needed for std::abs
 
-class PidServer: public PacketEventAbstract{
-private:
-	PIDimp* * myPidObjects;
-   int myPumberOfPidChannels;
-public:
-  // Packet ID needs to be set
-  PidServer (PIDimp* * pidObjects, int numberOfPidChannels )
-   : PacketEventAbstract( 37){
-    myPidObjects=pidObjects;
-    myPumberOfPidChannels=numberOfPidChannels;
+#define PID_SERVER_ID 37      // identifier for this server
+
+/**
+ *  @brief Class that receives setpoints through HDI and sends them to
+ *         the PID controller. Extends the `PacketEventAbstract' class.
+ */  
+class PidServer: public PacketEventAbstract
+{
+ private:
+  PIDimp ** myPidObjects;    // array of PidServers - one for each joint
+  int myPumberOfPidChannels; 
+  
+ public:
+  PidServer (PIDimp ** pidObjects, int numberOfPidChannels)
+    : PacketEventAbstract(PID_SERVER_ID)
+  {
+    myPidObjects = pidObjects;
+    myPumberOfPidChannels = numberOfPidChannels;
   }
-  //User function to be called when a packet comes in
-  // Buffer contains data from the packet coming in at the start of the function
-  // User data is written into the buffer to send it back
+
+  // This method is called every time a packet from MATLAB is received
+  // via HDI
   void event(float * buffer);
 };
-
 
 #endif /* end of include guard: Pid_server */

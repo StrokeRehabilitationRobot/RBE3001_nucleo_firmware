@@ -170,7 +170,7 @@ int main() {
 	       pid[1]->GetPIDPosition(),
 	       pid[2]->GetPIDPosition());
 
-	// print load cell readings for each joint
+	// print load cell readings
 	printf("\r\nLoad Value = %f , %f , %f",
 	       pid[0]->loadCell->read(),
 	       pid[1]->loadCell->read(),
