@@ -103,7 +103,7 @@ int main() {
       pid[i]->pidReset(pid[i]->GetPIDPosition() - homePosition[i]);
 #endif
       
-      // !FIXME Do we need the following two instructions? I'm afraid this may generated
+      // !FIXME Do we need the following two instructions? I'm afraid this may generate
       // strange behaviors.
       if (pid[i]->GetPIDPosition() > 3000) 
 	pid[i]->pidReset(pid[i]->GetPIDPosition() - 4095);
