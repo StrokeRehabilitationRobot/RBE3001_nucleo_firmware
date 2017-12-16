@@ -33,7 +33,7 @@
 #define PID_SERVER_ID 37      // identifier for this server
 
 /**
- *  @brief Class that receives setpoints through HDI and sends them to
+ *  @brief Class that receives setpoints through HID and sends them to
  *         the PID controller. Extends the `PacketEventAbstract' class.
  */  
 class PidServer: public PacketEventAbstract
@@ -51,7 +51,7 @@ class PidServer: public PacketEventAbstract
   }
 
   // This method is called every time a packet from MATLAB is received
-  // via HDI
+  // via HID
   void event(float * buffer);
 };
 

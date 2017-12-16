@@ -5,12 +5,12 @@
 #include "PidServer.h"
 
 /**
- *  @brief This function handles incoming HDI packets from MATLAB.
+ *  @brief This function handles incoming HID packets from MATLAB.
  *
  *  @description This method has two parts: in part 1, we will decode the incoming
  *               packet, extract the setpoints and send those values to the 
  *               PID controller; in part 2, we will generate a response that will be
- *               sent back to MATLAB through HDI. This is useful to e.g. send sensor
+ *               sent back to MATLAB through HID. This is useful to e.g. send sensor
  *               data to MATLAB for plotting.
  */  
 void PidServer::event(float * packet){
