@@ -1,35 +1,37 @@
 /**
  * RBE3001 - Nucleo Firmware
  *
- * Welcome! This is the main file of your Nucleo C++ firmware.
- *
  * Instructions
  * ------------
- * The code below starts all the control and communication loops that we will be
- * using to control the arm. Please, take some time to familiarize yourself with the
+ * Welcome! This is the main file of the Nucleo C++ firmware.
+ * The code in this source file starts all the control and communication loops 
+ * required to control the arm. Please, take some time to familiarize yourself with the
  * workflow of the program.
  *
- * This program has two distinct running modes:
- * **Dummy mode** enables code testing/debugging when no arm is attached to the board.
- * **Physical mode** sends control signals to an attached arm.
+ * IMPORTANT - this program has two distinct running modes:
+ * **Dummy mode** to be used for firmware testing/debugging when no arm is connected.
+ * **Physical mode** to be used when the robotic arm is connected to the Nucleo board.
  *
  * The running mode can be selected at compile time by commenting/uncommenting the
  * DUMMYMODE macro below.
  *
  */
 #include "main.h"
-#define  DOFs  3    // this macro defines the number of joints of the robotic arm
-//#define  DUMMYMODE
-#define  SERIALDEBUG
+#define  DOFs  3     // this macro defines the number of joints of the robotic arm
+#define  DUMMYMODE   // this macro selects the running mode - see instructions above
+
+#define  DEBUG       // if defined, this macro enables the printing of debug
+                     // statements to the serial port - which can be read with PUTTY
 
 /*
- * ======= PART 1: Global Variables and definition of ancillary functions =====
+ * ======= PART 1: Global Variables and definition of ancillary functions ======
  */
 Ticker pidTimer;           // implements a timer
 static PIDimp * pid[DOFs]; // pointer to PID controllers (one for each link)
 HIDSimplePacket coms;      // HID packet handlers
 
-// The following array contains home positions for the encoder values.
+// The following array contains the "home" positions (in encoder ticks) for each
+// of the robot's joints 
 float homePosition[3] = {396,129,2669};
 
 void runPid() {
@@ -43,114 +45,137 @@ void runPid() {
 
 
 /*
- * ======= PART 2: Main file ==================================================
+ * ======= PART 2: Main file ===================================================
  */
 int main() {
 
-	printf("\r\n\r\n Top of Main \r\n\r\n");
-
-#if defined(DUMMYMODES)
-	pid[0] = (PIDimp*) new DummyPID();
-	pid[1] = (PIDimp*) new DummyPID();
-	pid[2] = (PIDimp*) new DummyPID();
-#else
-	SPI * spiDev = new SPI(MOSI, MISO, CLK);
-	pid[0] = new PIDimp(new Servo(SERVO_1, 5), new AS5050(spiDev, ENC_1),new AnalogIn(LOAD_1)); // mosi, miso, sclk, cs
-	pid[1] = new PIDimp(new Servo(SERVO_2, 5), new AS5050(spiDev, ENC_2),new AnalogIn(LOAD_2)); // mosi, miso, sclk, cs
-	pid[2] = new PIDimp(new Servo(SERVO_3, 5), new AS5050(spiDev, ENC_3),new AnalogIn(LOAD_3)); // mosi, miso, sclk, cs
+#ifdef DEBUG
+  printf("\r\n\r\n RBE3001 Arm Firmware \r\n\r\n");
+  printf("\r\n\r\n Initializing... \r\n\r\n");
 #endif
 
-   RunEveryObject* print = new RunEveryObject(0,500);
-	// Invert the direction of the motor vs the input
-	//pid[0]->state.config.Polarity = true;
-	for (int i = 0; i < DOFs; i++) {
-		pid[i]->state.config.Enabled = false;   // disable PID to start with
-	}
-	wait_ms(500);   // Cosines delay
-	pidTimer.attach(&runPid, 0.0025);
-	// capture 100 ms of encoders before starting
-	wait_ms(100);
-	for (int i = 0; i < DOFs; i++) {
-		//reset after encoders have been updated a few times
-		pid[i]->InitilizePidController();
-#if defined(DUMMYMODES)
-		pid[i]->ZeroPID();   // set the current encoder value to 0
-							 // this should be replaced by calibration routine
+  /*
+   * ======= PART 2a: Initialize PID control ===================================
+   * In this section we instantiate objects that implement PID control for
+   * each of the joints.
+   */
+
+#ifdef DUMMYMODE
+  for (int i = 0; i < 3; i+++)
+    pid[i] = (PIDimp*) new DummyPID();
 #else
-		//apply calibrations
-		pid[i]->pidReset(pid[i]->GetPIDPosition() - homePosition[i]);
+  // initialize the SPI bus between the Nucleo board and each individual joint
+  SPI * spiDev = new SPI(MOSI, MISO, CLK);
+
+  // initialize the PID control for each of the joints
+  pid[0] = new PIDimp(new Servo(SERVO_1, 5), new AS5050(spiDev, ENC_1),
+		      new AnalogIn(LOAD_1)); // mosi, miso, sclk, cs
+  
+  pid[1] = new PIDimp(new Servo(SERVO_2, 5), new AS5050(spiDev, ENC_2),
+		      new AnalogIn(LOAD_2)); // mosi, miso, sclk, cs
+  
+  pid[2] = new PIDimp(new Servo(SERVO_3, 5), new AS5050(spiDev, ENC_3),
+		      new AnalogIn(LOAD_3)); // mosi, miso, sclk, cs
 #endif
-		if (pid[i]->GetPIDPosition() > 3000) {
-			pid[i]->pidReset(pid[i]->GetPIDPosition() - 4095);
-		}
-		pid[i]->SetPIDEnabled(true);              // Enable PID to start control
-		pid[i]->SetPIDTimed(pid[i]->GetPIDPosition(), 1000);
-	}
 
+  RunEveryObject * print = new RunEveryObject(0, 500);
 
-	/**
-	 * Place additional coms device here. Make sure that you include the header file for you
-	 * coms device. Folllow the tempplate below.
-	 * coms.attach(new device(pid, numerOfPid)
-	 */
-	coms.attach(new PidServer(pid, DOFs));
-	coms.attach(new PidConfigServer(pid, DOFs));
-	coms.attach(new PDVelocityConfigServer(pid, DOFs));
-	coms.attach(new VelocityTarget(pid, DOFs));
+  // disable PID
+  for (int i = 0; i < DOFs; i++)
+    pid[i]->state.config.Enabled = false;
 
-	printf("\r\n\r\n Starting Core \r\n\r\n");
+  // Cosines delay
+  wait_ms(500);   
+  pidTimer.attach(&runPid, 0.0025);
 
+  // capture 100 ms of encoders before starting
+  wait_ms(100);
 
-	/**
-	 * This is the main loop of the program.
-	 * coms.server() is called every iteration where is calls every attached coms device
-	 * and reads data hid and sends data back up.
-	 * IMPORTANT:
-	 * remove the print lines to speed up the read/write operation.
-	 */
-	while (1) {
-		coms.server();
-		int link =1;
-		if (print->RunEvery(pid[link]->getMs()) > 0) {
-			/**
-			 * This prints out the values of the load cells and encoders.
-			 * Use them to calibrate your arm.
-			 */
-			/*
-			printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
-					pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
-			printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
-					pid[1]->loadCell->read(), pid[2]->loadCell->read());
-			 2*/
-			if (pid[link]->state.vel.enabled) {
-				printf("\e[1;1H\e[2J\n\r\n\r\t Velocity set=   %f ticks/seCond\
-						\n\r\t vel.lastPosition=      %f ticks\
-						\n\r\t GetPIDPosition()=      %f ticks\
-						\n\r\t getVelocity()=         %f ticks/seCond \ 
-						\n\r\t vel.currentOutputVel=    %f \
-						\n\r\t state.Output=    %f \
-						\n\r\t state.OutputSet=    %f \
-						\n\r\t state.vel.timeDiff=    %f \
-						\n\r\t state.vel.velocityDiff=    %f\
-						\n\r\t state.vel.posDiff=    %f\
-						\n\r\t state.vel.proportional=    %f\
-						\n\r\t state.config.V.P=    %f\
-						\n\r\t state.config.V.D=    %f",
-						pid[link]->state.vel.unitsPerSeCond,
-						pid[link]->state.vel.lastPosition,
-						pid[link]->GetPIDPosition(),
-						pid[link]->getVelocity(),
-						pid[link]->state.vel.currentOutputVel,
-						pid[link]->state.Output,
-						pid[link]->state.OutputSet,
-						pid[link]->state.vel.timeDiff,
-						pid[link]->state.vel.velocityDiff,
-						pid[link]->state.vel.posDiff,
-						pid[link]->state.vel.proportional,
-						pid[link]->state.config.V.P,
-						pid[link]->state.config.V.D);
-			}
-		}
+  for (int i = 0; i < DOFs; i++) // for each joint,
+    {
+      // reset the PID control after encoders have been updated a few times
+      pid[i]->InitilizePidController();
+      
+      // we will now "zero" the encoder readings
+#ifdef DUMMYMODE // if operating in Dummy Mode, set the initial encoder reading to zero
+      pid[i]->ZeroPID();   
+#else            // else, use the values in homePosition 
+      pid[i]->pidReset(pid[i]->GetPIDPosition() - homePosition[i]);
+#endif
+      
+      // !FIXME Do we need the following two instructions? I'm afraid this may generated
+      // strange behaviors.
+      if (pid[i]->GetPIDPosition() > 3000) 
+	pid[i]->pidReset(pid[i]->GetPIDPosition() - 4095);
+      
+      // Finally, enable PID control
+      pid[i]->SetPIDEnabled(true);
+      pid[i]->SetPIDTimed(pid[i]->GetPIDPosition(), 1000); // !FIXME What does this instruction do?
+    }
+  
 
-	}
+  /*
+   * ======= PART 2b: Initialize HDI communication =============================
+   * In this section we instatiate objects that handle the communication between
+   * this firmware and MATLAB. Each of thess objects implements a server that responds
+   * to commands sent over HDI. During RBE3001, you will be asked to 
+   * implement your own communication servers. To instantiate a new server, use the
+   * template below:
+   * 
+   * coms.attach(new 'MyServerName'(pid, DOFs));
+   *
+   * C++ classes that define servers should be placed under /src/coms
+   *
+   * IMPORTANT: when adding a new server, do not forget to add its definition
+   *            by including the relevant header file at the beginning of this
+   *            source file
+   */
+  
+  coms.attach(new PidServer(pid, DOFs));
+  //coms.attach(new PidConfigServer(pid, DOFs));
+
+#ifdef DEBUG
+  printf("\r\n\r\n Initialization complete. \r\n\r\n");
+  printf("\r\n\r\n Starting main loop... \r\n\r\n");
+#endif
+
+  /*
+   * ======= PART 2c: Main loop ================================================
+   * We are now ready to run the main loop of the firmware. The most important 
+   * instruction within the main loop is `coms.server()'. This method, which is 
+   * invoked at each loop iteration, results in the execution of the `event()'
+   * method on each communication object that was instantiated above
+   * (see Part 2b of source file). The `event()' method implements upstream/downstream
+   * communication between this firmware and MATLAB - for more information on this 
+   * topic, see the example provided in /src/coms/PidServer.cpp.
+   *
+   * IMPORTANT: the code below includes print statements that, while being useful for 
+   *            debugging/testing, will slow down the main loop execution rate.
+   *            You can disable these statements at compile time, by commenting out 
+   *            the DEBUG macro at the beginning of this source file.
+   */
+  
+  while (1) {
+
+    coms.server();
+
+    // The following code prints out debug statements.
+#ifdef DEBUG
+    int link = 1;
+    if (print->RunEvery(pid[link]->getMs()) > 0) // !FIXME why do we need this if statement?
+      {
+	// print encoder values for each joint
+	printf("\r\nEncoder Value = %f , %f , %f",
+	       pid[0]->GetPIDPosition(),
+	       pid[1]->GetPIDPosition(),
+	       pid[2]->GetPIDPosition());
+
+	// print load cell readings for each joint
+	printf("\r\nLoad Value = %f , %f , %f",
+	       pid[0]->loadCell->read(),
+	       pid[1]->loadCell->read(),
+	       pid[2]->loadCell->read());	
+      }
+#endif // DEBUG    
+  }
 }
