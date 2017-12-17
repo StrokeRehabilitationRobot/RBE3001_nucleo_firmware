@@ -61,7 +61,7 @@ int main() {
    */
 
 #ifdef DUMMYMODE
-  for (int i = 0; i < 3; i+++)
+  for (int i = 0; i < 3; i++)
     pid[i] = (PIDimp*) new DummyPID();
 #else
   // initialize the SPI bus between the Nucleo board and each individual joint
