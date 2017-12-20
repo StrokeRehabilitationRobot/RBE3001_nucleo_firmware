@@ -64,6 +64,7 @@ int main() {
 	coms.attach(new PidConfigServer(pid, numberOfPid));
 	coms.attach(new PDVelocityConfigServer(pid, numberOfPid));
 	coms.attach(new VelocityTarget(pid, numberOfPid));
+	coms.attach(new Status(pid, numberOfPid));
 
 	printf("\r\n\r\n Starting Core \r\n\r\n");
 	while (1) {

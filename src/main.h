@@ -25,6 +25,7 @@
 #include "coms/PidConfigServer.h"
 #include "coms/PDVelocityConfigServer.h"
 #include "coms/VelocityTarget.h"
+#include "coms/Status.h"
 
 #define RELEASE
 // DEFINES
