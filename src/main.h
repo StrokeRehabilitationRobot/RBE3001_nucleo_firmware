@@ -26,6 +26,7 @@
 #include "coms/PDVelocityConfigServer.h"
 #include "coms/VelocityTarget.h"
 #include "coms/Status.h"
+#include "coms/TorqueServer.h"
 
 #define RELEASE
 // DEFINES
