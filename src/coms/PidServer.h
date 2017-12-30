@@ -17,7 +17,7 @@
  *             (see 'Part 2b' in /src/Main.cpp). To ensure that communication
  *             packets generated in MATLAB are routed to the appropriate 
  *             server, we use unique identifiers. The identifier for this
- *             PidServer is the number 37.
+ *             server is the integer number 37.
  *             In general, the identifier can be any 4-byte unsigned
  *             integer number.
  */
@@ -49,7 +49,7 @@ class PidServer: public PacketEventAbstract
     myPidObjects = pidObjects;
     myPumberOfPidChannels = numberOfPidChannels;
   }
-
+  
   // This method is called every time a packet from MATLAB is received
   // via HID
   void event(float * buffer);

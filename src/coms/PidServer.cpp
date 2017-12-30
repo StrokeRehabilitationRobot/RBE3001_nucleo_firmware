@@ -25,8 +25,8 @@ void PidServer::event(float * packet){
     {      
       // extract the three setpoint values (one for each joint) from the packet buffer
       float setpoint = packet[(i*3)+0];
-      float velocityTarget = 0;
-      float forceTarget = 0;
+      float velocityTarget = 0; // this is currently unused
+      float forceTarget = 0;    // this is currently unused
 
       // get current position from arm 
       float position = myPidObjects[i]->GetPIDPosition();
