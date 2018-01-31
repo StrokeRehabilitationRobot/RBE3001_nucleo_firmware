@@ -27,6 +27,7 @@
 #include "coms/VelocityTarget.h"
 #include "coms/Status.h"
 #include "coms/TorqueServer.h"
+#include "coms/MotorServer.h"
 
 #define RELEASE
 // DEFINES
