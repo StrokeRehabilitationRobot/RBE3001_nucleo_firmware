@@ -11,7 +11,7 @@ void TorqueServer::event(float * buffer){
     // read values from the packet buffer
     float setpoint        = myPidObjects[i]->GetPIDPosition();
     float velocityTarget  = myPidObjects[i]->getVelocity();
-    float forceTarget     = buffer[(i*3)+2];
+    float forceTarget     = buffer[i];
     myPidObjects[i]->gravityCompTerm=forceTarget;
 
     //perform state update
@@ -70,7 +70,9 @@ void TorqueServer::event(float * buffer){
     }
     float torque   = avgLoad/avgSize;
     float position = myPidObjects[i]->GetPIDPosition();
-    float velocity = myPidObjects[i]->getVelocity();
+    float velocity = (prevous_readings[i] - myPidObjects[i]->getVelocity())/0.0025;
+    prevous_readings[i] = position;
+
 
     // write upstream packets
     buffer[(i*3)+0] = position;
@@ -80,5 +82,4 @@ void TorqueServer::event(float * buffer){
   }
 
 }
-
 

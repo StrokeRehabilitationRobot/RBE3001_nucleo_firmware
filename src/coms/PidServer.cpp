@@ -4,7 +4,8 @@ void PidServer::event(float * buffer){
 
   //printf("\nPid Server Event");
   bool skipLink = false;
-  for(int i=0; i<myPumberOfPidChannels;i++){
+  for(int i=0; i<myPumberOfPidChannels;i++)
+  {
 
     float position = myPidObjects[i]->GetPIDPosition();
 
@@ -23,14 +24,6 @@ void PidServer::event(float * buffer){
       myPidObjects[i]->state.interpolate.set,
       0.01,
      0.01);
-    // printf("\n  data index %i position = %f setpoint = %f target = %f update = %i time = %f",
-    // i,
-    // position,
-    // setpoint,
-    // myPidObjects[i]->state.SetPoint,
-    // newUpdate,
-    // timeOfMotion
-    // );
 
     if(newUpdate){
 

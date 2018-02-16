@@ -9,20 +9,17 @@ void Status::event(float * buffer)
     buff[i]=0;
   }
 
-  int avgSize = 1
-		  +
-		  +
-		  0;
-  float avgLoad;
-  float avgVel;
-  float avgPos;
+
+
   //printf("\nPid Server Event");
   for(int i=0; i<myPumberOfPidChannels;i++)
   {
 
     float torque = myPidObjects[i]->loadCell->read();
     float position = myPidObjects[i]->GetPIDPosition();
-    float velocity =myPidObjects[i]->getVelocity();
+    float velocity = (prevous_readings[i] - myPidObjects[i]->getVelocity())/0.0025;
+    prevous_readings[i] = position;
+
 
     // write upstream packets
     buffer[(i*3)+0] = position;

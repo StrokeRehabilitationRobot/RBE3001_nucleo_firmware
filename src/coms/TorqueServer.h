@@ -8,6 +8,7 @@
 #include "mbed.h"
 #include "Servo.h"
 #include "PinNames.h"
+extern float prevous_readings[3];
 
 class TorqueServer: public PacketEventAbstract{
 private:

@@ -7,9 +7,13 @@ Ticker pidTimer;
 static PIDimp* pid[numberOfPid];
 HIDSimplePacket coms;
 //float cali brations[3] = { 1878.750000, 2103.250000, 988.000000 }; // team 3
-float  calibrations[3] = {2570,1240,-456};//{1853.0, 2023.5 ,1155.0}; //rehab arm
+float  calibrations[3] = {2570,1500,-510};//{1853.0, 2023.5 ,1155.0}; //rehab arm
+//float  calibrations[3] = {0,0,0};
 //float  calibrations[3] = {0,0,0};
 //float  calibrations[3] = {1844,2026,1155}; //team 8
+
+float prevous_readings[3];
+
 void runPid() {
 	// update all positions fast and together
 	for (int i = 0; i < numberOfPid; i++)
@@ -18,6 +22,8 @@ void runPid() {
 	for (int i = 0; i < numberOfPid; i++)
 		pid[i]->updateControl();
 }
+
+
 int main() {
 	printf("\r\n\r\n Top of Main \r\n\r\n");
 
@@ -73,19 +79,22 @@ int main() {
 	while (1) {
 		coms.server();
 		int link =1;
-		//printf("\n%s", "hello");
-
 //		printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
-//						pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
+//							pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
 //
-//		printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
+//					// print load cell readings
+//					printf(" Setpoint = %f , %f , %f", pid[0]->state.SetPoint,
+//							pid[1]->state.SetPoint, pid[2]->state.SetPoint);
+//					printf(" Gravity = %f , %f , %f", pid[0]->gravityCompTerm,
+//										pid[1]->gravityCompTerm, pid[2]->gravityCompTerm);
+//					printf(" Load Value = %f , %f , %f", pid[0]->loadCell->read(),
 //							pid[1]->loadCell->read(), pid[2]->loadCell->read());
 
 		if (1)
 		{
 //			printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
 //					pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
-//
+
 //			printf("\r\nLoad Value = %f , %f , %f", pid[0]->loadCell->read(),
 //					pid[1]->loadCell->read(), pid[2]->loadCell->read());
 //
