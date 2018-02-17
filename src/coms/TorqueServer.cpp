@@ -53,32 +53,43 @@ void TorqueServer::event(float * buffer){
   for(int i=4; i<64;i++){
     buff[i]=0;
   }
-  int avgSize = 10;
-  float avgLoad;
-  float avgVel;
-  float avgPos;
-  //printf("\nPid Server Event");
-  for(int i=0; i<myPumberOfPidChannels;i++)
-  {
 
-	avgLoad = 0;
-	avgPos  = 0;
-	avgVel  = 0;
-    for(unsigned int read = 0; read < avgSize; read++)
-    {
-    	avgLoad += myPidObjects[i]->loadCell->read();
-    }
-    float torque   = avgLoad/avgSize;
-    float position = myPidObjects[i]->GetPIDPosition();
-    float velocity = (prevous_readings[i] - position)/0.0025;
-    prevous_readings[i] = position;
+   float avgPos = 0;
+   float avgVel = 0;
+   float avgTau = 0;
+   float torque = 0;
+   float position = 0;
+   float velocity = 0;
+   int avgSize = 10;
+
+   //printf("\nPid Server Event");
+   for(int i=0; i<myPumberOfPidChannels;i++)
+   {
+ 	avgPos = 0;
+ 	avgVel = 0;
+ 	avgTau = 0;
+
+ 	for(int j = 0; j  < avgSize; j++ )
+ 	{
+ 		torque = myPidObjects[i]->loadCell->read();
+ 		position = myPidObjects[i]->GetPIDPosition();
+ 		velocity = (prevous_readings[i] - position)/0.0025;
+
+ 		avgPos = position/avgSize;
+ 		avgVel = velocity/avgSize;
+
+ 	}
 
 
-    // write upstream packets
-    buffer[(i*3)+0] = position;
-    buffer[(i*3)+1] = velocity;
-    buffer[(i*3)+2] = torque;
+     prevous_readings[i] = position;
 
-  }
 
-}
+     // write upstream packets
+     buffer[(i*3)+0] = avgPos;
+     buffer[(i*3)+1] = avgVel;
+     buffer[(i*3)+2] = torque;
+
+   }
+
+ }
+
