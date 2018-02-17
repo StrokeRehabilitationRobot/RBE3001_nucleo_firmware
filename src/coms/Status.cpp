@@ -17,7 +17,7 @@ void Status::event(float * buffer)
 
     float torque = myPidObjects[i]->loadCell->read();
     float position = myPidObjects[i]->GetPIDPosition();
-    float velocity = (prevous_readings[i] - myPidObjects[i]->getVelocity())/0.0025;
+    float velocity = (prevous_readings[i] - position)/0.0025;
     prevous_readings[i] = position;
 
 
@@ -29,5 +29,3 @@ void Status::event(float * buffer)
   }
 
 }
-
-

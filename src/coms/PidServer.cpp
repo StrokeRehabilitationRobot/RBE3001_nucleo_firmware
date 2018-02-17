@@ -83,7 +83,8 @@ void PidServer::event(float * buffer){
     }
     float torque = avgLoad/avgSize;
     float position = myPidObjects[i]->GetPIDPosition();
-    float velocity =myPidObjects[i]->getVelocity();
+    float velocity = (prevous_readings[i] - position)/0.0025;
+    prevous_readings[i] = position;
 
     // write upstream packets
     buffer[(i*3)+0] = position;
@@ -97,5 +98,3 @@ void PidServer::event(float * buffer){
   //
   // }
 }
-
-

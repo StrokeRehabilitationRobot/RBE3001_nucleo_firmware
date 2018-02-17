@@ -13,7 +13,7 @@ float  calibrations[3] = {2570,1500,-510};//{1853.0, 2023.5 ,1155.0}; //rehab ar
 //float  calibrations[3] = {1844,2026,1155}; //team 8
 
 float prevous_readings[3];
-
+//extern float prevous_readings[3];
 void runPid() {
 	// update all positions fast and together
 	for (int i = 0; i < numberOfPid; i++)
@@ -79,6 +79,7 @@ int main() {
 	while (1) {
 		coms.server();
 		int link =1;
+		//printf("\r\nEncoder Value = %f , %f , %f",prevous_readings[0],prevous_readings[1],prevous_readings[2]);
 //		printf("\r\nEncoder Value = %f , %f , %f", pid[0]->GetPIDPosition(),
 //							pid[1]->GetPIDPosition(), pid[2]->GetPIDPosition());
 //

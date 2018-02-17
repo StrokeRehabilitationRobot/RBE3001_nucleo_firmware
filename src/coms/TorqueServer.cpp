@@ -70,7 +70,7 @@ void TorqueServer::event(float * buffer){
     }
     float torque   = avgLoad/avgSize;
     float position = myPidObjects[i]->GetPIDPosition();
-    float velocity = (prevous_readings[i] - myPidObjects[i]->getVelocity())/0.0025;
+    float velocity = (prevous_readings[i] - position)/0.0025;
     prevous_readings[i] = position;
 
 
@@ -82,4 +82,3 @@ void TorqueServer::event(float * buffer){
   }
 
 }
-
